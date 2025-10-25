@@ -20,4 +20,8 @@ public class VenueService {
     public Venue addVenue(Venue venue) {
         return venueRepository.save(venue);
     }
+
+    public List<Venue> findAll() {
+        return venueRepository.findAll();
+    }
 }

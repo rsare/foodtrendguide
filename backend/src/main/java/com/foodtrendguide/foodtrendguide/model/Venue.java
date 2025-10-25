@@ -2,6 +2,8 @@ package com.foodtrendguide.foodtrendguide.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "venues")
 public class Venue {
@@ -30,4 +32,11 @@ public class Venue {
     public String getCity() { return city; }
     public String getAddress() { return address; }
     public double getRating() { return rating; }
+
+    @OneToMany(mappedBy = "venue", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Bookmark> bookmarks;
+
+    @OneToMany(mappedBy = "venue", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Photo> photos;
+
 }

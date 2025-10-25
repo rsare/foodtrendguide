@@ -1,5 +1,6 @@
 package com.foodtrendguide.foodtrendguide.model;
 
+import com.foodtrendguide.foodtrendguide.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
