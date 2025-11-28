@@ -1,11 +1,16 @@
 package com.foodtrendguide.foodtrendguide.model;
 
 import jakarta.persistence.*;
-
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
 @Table(name = "venues")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Venue {
 
     @Id
@@ -14,29 +19,17 @@ public class Venue {
 
     private String name;
     private String city;
+    private String district; // ✅ YENİ EKLENDİ (İlçe)
     private String address;
     private double rating;
+    private String category;
 
-    public Venue() {}
-
-    public Venue(Long id, String name, String city, String address, double rating) {
-        this.id = id;
-        this.name = name;
-        this.city = city;
-        this.address = address;
-        this.rating = rating;
-    }
-
-    public Long getId() { return id; }
-    public String getName() { return name; }
-    public String getCity() { return city; }
-    public String getAddress() { return address; }
-    public double getRating() { return rating; }
+    @Column(length = 1000)
+    private String imageUrl;
 
     @OneToMany(mappedBy = "venue", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Bookmark> bookmarks;
 
     @OneToMany(mappedBy = "venue", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Photo> photos;
-
 }

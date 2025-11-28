@@ -1,12 +1,15 @@
+C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\config\AppConfig.java
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\config\CorsConfig.java
+C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\config\DataLoader.java
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\config\SecurityConfig.java
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\config\WebConfig.java
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\controller\AuthController.java
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\controller\BookmarkController.java
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\controller\PhotoController.java
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\controller\VenueController.java
+C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\dto\LoginRequest.java
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\entity\User.java
-C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\FoodTrendBuideApplication.java
+C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\FoodTrendGuideApplication.java
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\model\Bookmark.java
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\model\Photo.java
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\model\Review.java
@@ -18,5 +21,7 @@ C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendgui
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\repository\VenueRepository.java
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\service\AuthService.java
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\service\BookmarkService.java
+C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\service\GooglePlacesService.java
+C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\service\OpenStreetMapService.java
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\service\PhotoService.java
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\service\VenueService.java

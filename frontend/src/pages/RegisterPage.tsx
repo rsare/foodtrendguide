@@ -1,12 +1,37 @@
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function RegisterPage() {
     const navigate = useNavigate();
 
-    const handleRegister = (e: React.FormEvent) => {
+    // Form verilerini tutacak state
+    const [formData, setFormData] = useState({
+        fullName: "",
+        email: "",
+        password: ""
+    });
+
+    // ✅ DÜZELTİLEN KISIM: handleChange fonksiyonu
+    // Inputun "name" özelliğine göre state'i günceller.
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value
+        }));
+    };
+
+    const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Burada ileride backend'e POST isteği göndereceğiz (/api/auth/register)
-        navigate("/login");
+        try {
+            await axios.post("http://localhost:8081/api/auth/register", formData);
+            alert("Kayıt başarılı! Giriş yapabilirsiniz.");
+            navigate("/login");
+        } catch (error) {
+            console.error("Kayıt hatası", error);
+            alert("Kayıt başarısız. E-posta kullanılıyor olabilir.");
+        }
     };
 
     return (
@@ -17,20 +42,29 @@ function RegisterPage() {
                 <form onSubmit={handleRegister} className="space-y-4">
                     <input
                         type="text"
+                        name="fullName"  // 👈 EKLENDİ: State'teki isimle aynı olmalı
                         placeholder="Ad Soyad"
                         className="w-full p-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                        value={formData.fullName}
+                        onChange={handleChange} // 👈 EKLENDİ: Fonksiyonu buraya bağladık
                         required
                     />
                     <input
                         type="email"
+                        name="email" // 👈 EKLENDİ
                         placeholder="E-posta"
                         className="w-full p-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                        value={formData.email}
+                        onChange={handleChange} // 👈 EKLENDİ
                         required
                     />
                     <input
                         type="password"
+                        name="password" // 👈 EKLENDİ
                         placeholder="Şifre"
                         className="w-full p-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                        value={formData.password}
+                        onChange={handleChange} // 👈 EKLENDİ
                         required
                     />
                     <button
@@ -47,8 +81,8 @@ function RegisterPage() {
                         className="text-yellow-400 cursor-pointer hover:underline"
                         onClick={() => navigate("/login")}
                     >
-            Giriş Yap
-          </span>
+                        Giriş Yap
+                    </span>
                 </p>
             </div>
         </div>

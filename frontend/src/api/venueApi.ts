@@ -1,5 +1,8 @@
-export async function getVenues() {
-    const res = await fetch('/api/venues');
-    if (!res.ok) throw new Error('API error');
-    return await res.json();
-}
+import axios from "axios";
+
+const API_URL = "http://localhost:8081/api/venues";
+
+export const getAllVenues = async () => {
+    const res = await axios.get(API_URL);
+    return res.data;
+};
