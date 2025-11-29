@@ -2,6 +2,7 @@ com\foodtrendguide\foodtrendguide\model\Review.class
 com\foodtrendguide\foodtrendguide\repository\UserRepository.class
 com\foodtrendguide\foodtrendguide\service\GooglePlacesService.class
 com\foodtrendguide\foodtrendguide\service\VenueService.class
+com\foodtrendguide\foodtrendguide\model\LoginRequest.class
 com\foodtrendguide\foodtrendguide\model\Venue.class
 com\foodtrendguide\foodtrendguide\service\OpenStreetMapService.class
 com\foodtrendguide\foodtrendguide\config\AppConfig.class

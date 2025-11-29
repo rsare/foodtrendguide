@@ -12,4 +12,4 @@ spring:
     google:
       places:
         api:
-          key: ${GOOGLE_API_KEY}
+          key: AIzaSyCH_tZBEOgtxI2Imc6S-S_BlQWyEZI-YMg

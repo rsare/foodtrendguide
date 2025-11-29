@@ -2,7 +2,7 @@ package com.foodtrendguide.foodtrendguide.service;
 
 import com.foodtrendguide.foodtrendguide.entity.User;
 import com.foodtrendguide.foodtrendguide.repository.UserRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder; // 👈 Bu import şart
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -11,6 +11,7 @@ import java.util.Optional;
 public class AuthService {
 
     private final UserRepository userRepository;
+    // 👇 Bu arkadaşı eklemelisin
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public AuthService(UserRepository userRepository) {
@@ -18,7 +19,11 @@ public class AuthService {
     }
 
     public User register(User user) {
+        // ⚠️ DİKKAT: Şifreyi veritabanına yazmadan önce ŞİFRELEMEMİZ lazım!
+        // Eski hali: user.getPassword() ise HATA verir.
+        // Yeni hali:
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         return userRepository.save(user);
     }
 

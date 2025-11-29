@@ -23,7 +23,13 @@ function LoginPage() {
             console.log("✅ Backend cevabı:", response);
 
             if (response.status === 200) {
+                // Token'ı kaydet
                 localStorage.setItem("token", response.data.token);
+                // ✅ User ID'yi kaydet (Bunu eklemen lazım)
+                localStorage.setItem("userId", response.data.userId);
+                // İsim bilgisini kaydet (Profilde göstermek için)
+                localStorage.setItem("fullName", response.data.fullName);
+
                 navigate("/home");
             }
         } catch (err) {
