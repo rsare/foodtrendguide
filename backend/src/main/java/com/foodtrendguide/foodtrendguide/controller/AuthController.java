@@ -7,8 +7,9 @@ import com.foodtrendguide.foodtrendguide.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder; // 👈 Bu import önemli
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import com.foodtrendguide.foodtrendguide.model.GoogleLoginRequest;
 
 import java.util.Map;
 
@@ -60,6 +61,22 @@ public class AuthController {
                 "userId", user.getId(),
                 "fullName", user.getFullName() != null ? user.getFullName() : "Kullanıcı",
                 "message", "Giriş başarılı"
+        ));
+    }
+
+
+
+    @PostMapping("/google")
+    public ResponseEntity<?> googleLogin(@RequestBody GoogleLoginRequest request) {
+        // Servisteki metodu çağır (Kaydet veya Bul)
+        User user = authService.loginWithGoogle(request.getEmail(), request.getFullName());
+
+        // Başarılı cevabı dön
+        return ResponseEntity.ok(Map.of(
+                "token", "dummy-jwt-token-google",
+                "userId", user.getId(),
+                "fullName", user.getFullName(),
+                "message", "Google ile giriş başarılı"
         ));
     }
 }

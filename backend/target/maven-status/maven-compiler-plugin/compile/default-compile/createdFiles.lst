@@ -24,6 +24,7 @@ com\foodtrendguide\foodtrendguide\config\WebConfig.class
 com\foodtrendguide\foodtrendguide\service\PhotoService.class
 com\foodtrendguide\foodtrendguide\controller\InfoController.class
 com\foodtrendguide\foodtrendguide\controller\AuthController.class
+com\foodtrendguide\foodtrendguide\model\GoogleLoginRequest.class
 com\foodtrendguide\foodtrendguide\repository\BookmarkRepository.class
 com\foodtrendguide\foodtrendguide\dto\LoginRequest.class
 com\foodtrendguide\foodtrendguide\controller\PhotoController.class
