@@ -3,9 +3,12 @@ C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendgui
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\config\DataLoader.java
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\config\SecurityConfig.java
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\config\WebConfig.java
+C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\controller\AdminController.java
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\controller\AuthController.java
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\controller\BookmarkController.java
+C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\controller\InfoController.java
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\controller\PhotoController.java
+C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\controller\UserController.java
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\controller\VenueController.java
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\dto\LoginRequest.java
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\entity\User.java

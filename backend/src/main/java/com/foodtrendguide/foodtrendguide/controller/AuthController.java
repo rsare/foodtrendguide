@@ -36,16 +36,25 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<?> login(@RequestBody com.foodtrendguide.foodtrendguide.model.LoginRequest request) {
+        System.out.println("🔍 Giriş İsteği: " + request.getEmail());
+
         User user = userRepository.findByEmail(request.getEmail()).orElse(null);
 
-        // ✅ DÜZELTİLEN KISIM BURASI:
-        // .equals() yerine passwordEncoder.matches() kullanıyoruz.
-        if (user == null || !passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("error", "E-posta veya şifre hatalı"));
+        if (user == null) {
+            System.out.println("❌ Kullanıcı veritabanında bulunamadı!");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Kullanıcı yok"));
         }
 
+        System.out.println("✅ Kullanıcı bulundu. DB Şifre: " + user.getPassword());
+        System.out.println("🔑 Girilen Şifre: " + request.getPassword());
+
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            System.out.println("❌ Şifreler Eşleşmedi! (Hash kontrolü başarısız)");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Şifre hatalı"));
+        }
+
+        System.out.println("🚀 Giriş Başarılı!");
         return ResponseEntity.ok(Map.of(
                 "token", "dummy-jwt-token",
                 "userId", user.getId(),

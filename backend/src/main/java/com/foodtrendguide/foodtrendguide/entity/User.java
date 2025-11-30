@@ -1,5 +1,6 @@
 package com.foodtrendguide.foodtrendguide.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,6 +11,7 @@ import lombok.*;
 @Data // ✅ Bu anotasyon getFullName() gibi metodları otomatik oluşturur
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
 
     @Id

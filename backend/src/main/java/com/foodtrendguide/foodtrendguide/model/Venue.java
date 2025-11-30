@@ -1,5 +1,7 @@
 package com.foodtrendguide.foodtrendguide.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore; // 👈 BU IMPORT ÖNEMLİ
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,6 +13,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Venue {
 
     @Id
@@ -19,7 +22,7 @@ public class Venue {
 
     private String name;
     private String city;
-    private String district; // ✅ YENİ EKLENDİ (İlçe)
+    private String district;
     private String address;
     private double rating;
     private String category;
@@ -27,9 +30,13 @@ public class Venue {
     @Column(length = 1000)
     private String imageUrl;
 
+    // 👇 BURAYA @JsonIgnore EKLE (Sonsuz döngüyü kırar)
     @OneToMany(mappedBy = "venue", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Bookmark> bookmarks;
 
+    // 👇 BURAYA DA @JsonIgnore EKLE
     @OneToMany(mappedBy = "venue", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Photo> photos;
 }

@@ -17,19 +17,19 @@ function HomePage() {
     const navigate = useNavigate();
     const [venues, setVenues] = useState<Venue[]>([]);
 
+    // Login Kontrolü
+    const token = localStorage.getItem("token");
+    const isLoggedIn = !!token;
+
     // Filtre State'leri
     const [search, setSearch] = useState("");
     const [selectedCity, setSelectedCity] = useState("Hepsi");
     const [selectedDistrict, setSelectedDistrict] = useState("Hepsi");
     const [selectedCategory, setSelectedCategory] = useState("Hepsi");
-
-    // Dropdown Verileri
     const [districts, setDistricts] = useState<string[]>([]);
 
-    useEffect(() => {
-        const token = localStorage.getItem("token");
-        if (!token) navigate("/login");
-    }, [navigate]);
+    // 🔥 YENİ STATE: Giriş Yap Pop-up'ı için
+    const [showAuthModal, setShowAuthModal] = useState(false);
 
     useEffect(() => {
         axios.get("http://localhost:8081/api/venues")
@@ -54,26 +54,27 @@ function HomePage() {
         }
     };
 
-    // 🔥 FAVORİYE EKLEME FONKSİYONU (YENİ EKLENDİ)
+    // FAVORİYE EKLEME (Güncellendi: Pop-up açıyor)
     const toggleFavorite = async (e: React.MouseEvent, venueId: number) => {
-        e.stopPropagation(); // Detay sayfasına gitmesini engelle
-        const userId = localStorage.getItem("userId");
+        e.stopPropagation();
 
-        if (!userId) {
-            alert("Lütfen önce giriş yapın.");
+        // Eğer giriş yapmamışsa ÖZEL MODAL'ı aç
+        if (!isLoggedIn) {
+            setShowAuthModal(true);
             return;
         }
 
+        const userId = localStorage.getItem("userId");
+        if (!userId) return;
+
         try {
             await axios.post(`http://localhost:8081/api/bookmarks/${userId}/${venueId}`);
-            alert("Favori durumu güncellendi! ❤️");
+            alert("Favori listesi güncellendi.");
         } catch (error) {
             console.error("Favori hatası:", error);
-            alert("Bir hata oluştu.");
         }
     };
 
-    // FİLTRELEME VE TEKİLLEŞTİRME
     const getDisplayVenues = () => {
         const filtered = venues.filter((v) => {
             const venueName = v.name ? v.name.toLowerCase() : "";
@@ -102,115 +103,144 @@ function HomePage() {
 
     const handleLogout = () => {
         localStorage.removeItem("token");
-        navigate("/login");
+        localStorage.removeItem("userId");
+        localStorage.removeItem("fullName");
+        window.location.reload();
     };
 
     return (
-        <div className="min-h-screen bg-gray-900 text-white font-sans">
-            <nav className="flex justify-between items-center px-6 py-4 bg-gray-800 border-b border-gray-700 mb-6">
-                <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.location.reload()}>
-                    <span className="text-3xl"></span>
-                    <h1 className="text-xl font-bold bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">
-                        FoodTrend Guide
+        <div className="min-h-screen bg-[#0f1115] text-white font-sans selection:bg-yellow-500/30 relative">
+
+            {/* ... Navbar (Aynı) ... */}
+            <nav className="flex justify-between items-center px-6 py-5 bg-[#0f1115] border-b border-gray-800/50 sticky top-0 z-40 backdrop-blur-md bg-opacity-90">
+                <div className="flex items-center gap-3 cursor-pointer group" onClick={() => window.location.reload()}>
+                    <div className="bg-gradient-to-br from-yellow-400 to-yellow-600 p-2 rounded-lg text-black group-hover:scale-105 transition-transform duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                    </div>
+                    <h1 className="text-xl font-bold tracking-wide text-white">
+                        FoodTrend <span className="text-yellow-500">Guide</span>
                     </h1>
                 </div>
+
                 <div className="flex items-center gap-4">
-                    <button onClick={() => navigate("/favorites")} className="text-gray-300 hover:text-yellow-400 transition font-medium flex items-center gap-2">
-                        ❤️ Favorilerim
-                    </button>
-                    <button onClick={handleLogout} className="text-gray-300 hover:text-white transition text-sm font-medium">
-                        Çıkış Yap
-                    </button>
+                    {isLoggedIn ? (
+                        <>
+                            <button onClick={() => navigate("/favorites")} className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors font-medium text-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                </svg>
+                                <span className="hidden sm:inline">Favorilerim</span>
+                            </button>
+                            <button onClick={handleLogout} className="flex items-center gap-2 text-red-400 hover:text-red-300 transition-colors text-sm font-medium border border-red-500/20 px-4 py-2 rounded-lg hover:bg-red-500/10">
+                                <span>Çıkış Yap</span>
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <button onClick={() => navigate("/login")} className="text-white hover:text-yellow-400 transition font-medium text-sm">Giriş Yap</button>
+                            <button onClick={() => navigate("/register")} className="bg-yellow-500 hover:bg-yellow-400 text-black px-5 py-2.5 rounded-xl transition text-sm font-bold shadow-lg shadow-yellow-500/20">Kayıt Ol</button>
+                        </>
+                    )}
                 </div>
             </nav>
 
-            <div className="max-w-7xl mx-auto px-4">
-                <div className="bg-gray-800 p-2 rounded-xl shadow-lg border border-gray-700 flex flex-col lg:flex-row items-center gap-2 mb-8">
-                    <div className="relative flex-grow w-full lg:w-auto">
-                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">🔍</span>
+            <div className="max-w-[1400px] mx-auto px-6 py-8">
+                {/* ... Filtre Alanı (Değişiklik Yok) ... */}
+                <div className="bg-[#181a20] p-3 rounded-2xl shadow-xl shadow-black/20 flex flex-col lg:flex-row items-center gap-3 mb-10 border border-white/5">
+                    <div className="relative flex-grow w-full lg:w-auto group">
+                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-yellow-500 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                        </span>
                         <input
                             type="text"
-                            placeholder="Mekan ara..."
+                            placeholder="Mekan veya mutfak ara..."
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2.5 bg-gray-900/50 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-yellow-500 border border-gray-600 focus:border-yellow-500 transition h-12"
+                            className="w-full pl-12 pr-4 py-3 bg-[#0f1115] rounded-xl text-white placeholder-gray-600 focus:outline-none focus:ring-1 focus:ring-yellow-500/50 transition border border-gray-800 focus:border-yellow-500/50"
                         />
                     </div>
-                    <div className="hidden lg:block w-px h-8 bg-gray-700 mx-1"></div>
-                    <div className="grid grid-cols-3 gap-2 w-full lg:w-auto">
-                        <div className="relative w-full lg:w-40">
-                            <select value={selectedCity} onChange={handleCityChange} className="w-full h-12 appearance-none bg-gray-700 hover:bg-gray-600 text-white pl-3 pr-8 rounded-lg border border-gray-600 focus:outline-none focus:border-yellow-500 cursor-pointer transition text-sm font-medium">
+                    <div className="hidden lg:block w-px h-8 bg-gray-800 mx-2"></div>
+                    <div className="flex w-full lg:w-auto gap-3 overflow-x-auto pb-1 lg:pb-0">
+                        <div className="relative min-w-[160px] flex-1">
+                            <select value={selectedCity} onChange={handleCityChange} className="w-full h-12 appearance-none bg-[#0f1115] hover:bg-[#13151a] text-gray-300 pl-4 pr-10 rounded-xl border border-gray-800 focus:outline-none focus:border-yellow-500/50 cursor-pointer transition text-sm font-medium">
                                 <option value="Hepsi">Tüm İller</option>
                                 {TURKEY_DATA.map(item => (<option key={item.il} value={item.il}>{item.il}</option>))}
                             </select>
-                            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-xs">▼</span>
+                            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none"><svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg></span>
                         </div>
-                        <div className="relative w-full lg:w-40">
-                            <select value={selectedDistrict} onChange={(e) => setSelectedDistrict(e.target.value)} disabled={selectedCity === "Hepsi"} className={`w-full h-12 appearance-none bg-gray-700 text-white pl-3 pr-8 rounded-lg border border-gray-600 focus:outline-none focus:border-yellow-500 cursor-pointer transition text-sm font-medium ${selectedCity === "Hepsi" ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-600"}`}>
+                        <div className="relative min-w-[160px] flex-1">
+                            <select value={selectedDistrict} onChange={(e) => setSelectedDistrict(e.target.value)} disabled={selectedCity === "Hepsi"} className={`w-full h-12 appearance-none bg-[#0f1115] text-gray-300 pl-4 pr-10 rounded-xl border border-gray-800 focus:outline-none focus:border-yellow-500/50 cursor-pointer transition text-sm font-medium ${selectedCity === "Hepsi" ? "opacity-50 cursor-not-allowed" : "hover:bg-[#13151a]"}`}>
                                 <option value="Hepsi">Tüm İlçeler</option>
                                 {districts.map(dist => (<option key={dist} value={dist}>{dist}</option>))}
                             </select>
-                            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-xs">▼</span>
+                            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none"><svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg></span>
                         </div>
-                        <div className="relative w-full lg:w-40">
-                            <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)} className="w-full h-12 appearance-none bg-gray-700 hover:bg-gray-600 text-white pl-3 pr-8 rounded-lg border border-gray-600 focus:outline-none focus:border-yellow-500 cursor-pointer transition text-sm font-medium">
+                        <div className="relative min-w-[160px] flex-1">
+                            <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)} className="w-full h-12 appearance-none bg-[#0f1115] hover:bg-[#13151a] text-gray-300 pl-4 pr-10 rounded-xl border border-gray-800 focus:outline-none focus:border-yellow-500/50 cursor-pointer transition text-sm font-medium">
                                 <option value="Hepsi">Kategoriler</option>
                                 <option value="Tatlı">Tatlı</option>
                                 <option value="Tuzlu">Yemek</option>
                                 <option value="Kahve">Kahve</option>
                                 <option value="Sağlıklı">Sağlıklı</option>
                             </select>
-                            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-xs">▼</span>
+                            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none"><svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg></span>
                         </div>
                     </div>
                 </div>
 
+                {/* ... Kartlar Alanı (Değişiklik Yok) ... */}
                 {displayVenues.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center mt-20 text-gray-500">
-                        <span className="text-4xl mb-3"></span>
-                        <p className="text-lg text-center">Aradığınız kriterlere uygun mekan bulunamadı.</p>
+                    <div className="flex flex-col items-center justify-center mt-32 text-gray-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 mb-4 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <p className="text-lg">Kriterlere uygun mekan bulunamadı.</p>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pb-10">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 pb-12">
                         {displayVenues.map((venue) => (
                             <div
                                 key={venue.id}
                                 onClick={() => navigate(`/venue/${venue.id}`)}
-                                className="group bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-1 transition duration-300 border border-gray-700 cursor-pointer relative"
+                                className="group bg-[#181a20] rounded-[2rem] overflow-hidden shadow-lg shadow-black/30 hover:shadow-2xl hover:shadow-black/50 hover:-translate-y-2 transition-all duration-300 cursor-pointer relative isolate"
                             >
-                                {/* ❤️ KALP BUTONU (YENİ EKLENDİ) */}
                                 <button
                                     onClick={(e) => toggleFavorite(e, venue.id)}
-                                    className="absolute top-3 left-3 z-10 bg-black/50 hover:bg-red-500/90 text-white p-2 rounded-full backdrop-blur-sm transition group-hover:scale-110 border border-white/10"
-                                    title="Favorilere Ekle"
+                                    className="absolute top-4 left-4 z-20 w-10 h-10 flex items-center justify-center bg-black/40 hover:bg-red-500/90 text-white rounded-full backdrop-blur-md transition-all duration-300 border border-white/10 group-hover:scale-110"
                                 >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                                     </svg>
                                 </button>
 
-                                <div className="relative h-48 overflow-hidden">
+                                <div className="relative h-64 overflow-hidden">
                                     <img
-                                        src={venue.imageUrl || "https://via.placeholder.com/300"}
+                                        src={venue.imageUrl || "https://via.placeholder.com/400"}
                                         alt={venue.name}
-                                        className="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"
+                                        className="w-full h-full object-cover transition duration-700 group-hover:scale-110 group-hover:filter group-hover:brightness-110"
                                     />
-                                    <div className="absolute top-3 right-3 bg-black/70 backdrop-blur-md px-2 py-1 rounded-lg text-sm text-yellow-400 font-bold border border-yellow-500/30 flex items-center gap-1">
-                                        <span>★</span> {typeof venue.rating === 'number' ? venue.rating.toFixed(1) : venue.rating}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#181a20] via-transparent to-transparent opacity-80"></div>
+
+                                    <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-xl text-sm font-bold text-yellow-400 border border-yellow-500/20 flex items-center gap-1">
+                                        <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                        {typeof venue.rating === 'number' ? venue.rating.toFixed(1) : venue.rating}
                                     </div>
-                                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-gray-900 to-transparent h-20 opacity-80"></div>
                                 </div>
-                                <div className="p-4">
-                                    <h3 className="text-lg font-bold text-white truncate mb-1">{venue.name}</h3>
-                                    <div className="flex items-center text-gray-400 text-sm mb-3 gap-1">
+
+                                <div className="p-6 relative -mt-10">
+                                    <h3 className="text-xl font-bold text-white truncate mb-2 leading-tight group-hover:text-yellow-400 transition-colors">{venue.name}</h3>
+
+                                    <div className="flex items-center text-gray-400 text-sm mb-5 gap-1.5">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                                         <span className="truncate">{venue.district}, {venue.city}</span>
                                     </div>
+
                                     <div className="flex gap-2">
-                                        <span className={`text-xs px-2.5 py-1 rounded-md font-medium border ${
-                                            venue.category === 'Tatlı' ? 'bg-pink-900/30 text-pink-300 border-pink-800' :
-                                                venue.category === 'Kahve' ? 'bg-yellow-900/30 text-yellow-300 border-yellow-800' :
-                                                    venue.category === 'Sağlıklı' ? 'bg-green-900/30 text-green-300 border-green-800' :
-                                                        'bg-blue-900/30 text-blue-300 border-blue-800'
+                                        <span className={`text-xs px-3 py-1.5 rounded-lg font-semibold tracking-wide border ${
+                                            venue.category === 'Tatlı' ? 'bg-pink-500/10 text-pink-400 border-pink-500/20' :
+                                                venue.category === 'Kahve' ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20' :
+                                                    venue.category === 'Sağlıklı' ? 'bg-green-500/10 text-green-400 border-green-500/20' :
+                                                        'bg-blue-500/10 text-blue-400 border-blue-500/20'
                                         }`}>
                                             {venue.category}
                                         </span>
@@ -221,6 +251,41 @@ function HomePage() {
                     </div>
                 )}
             </div>
+
+            {/* 🔥 YENİ EKLENEN POP-UP (MODAL) */}
+            {showAuthModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fade-in">
+                    <div className="bg-[#181a20] border border-white/10 p-8 rounded-[2rem] shadow-2xl max-w-sm w-full text-center relative transform transition-all scale-100">
+
+                        <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-yellow-500/30">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                        </div>
+
+                        <h3 className="text-2xl font-bold text-white mb-2">Giriş Yapmalısın</h3>
+                        <p className="text-gray-400 mb-8 text-sm">
+                            Favorilere eklemek ve profilini yönetmek için lütfen giriş yap veya hesap oluştur.
+                        </p>
+
+                        <div className="flex flex-col gap-3">
+                            <button
+                                onClick={() => navigate("/login")}
+                                className="w-full py-3 bg-yellow-500 hover:bg-yellow-400 text-black font-bold rounded-xl transition-all shadow-lg shadow-yellow-500/20"
+                            >
+                                Giriş Yap
+                            </button>
+                            <button
+                                onClick={() => setShowAuthModal(false)}
+                                className="w-full py-3 bg-gray-700 hover:bg-gray-600 text-white font-medium rounded-xl transition-all"
+                            >
+                                Vazgeç
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 }

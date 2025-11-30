@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Proje Bilgileri</title>
+    <style>
+        body {
+            background-color: #0f1115;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .card {
+            background-color: #181a20;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        h1 {
+            color: #fbbf24; /* Sarı renk */
+            margin-bottom: 10px;
+        }
+        .badge {
+            background-color: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        .info-item {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #0f1115;
+            border-radius: 10px;
+            text-align: left;
+        }
+        .label {
+            color: #9ca3af;
+            font-size: 0.85em;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .value {
+            font-size: 1.1em;
+            font-weight: 500;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 0.8em;
+            color: #6b7280;
+        }
+        .btn {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #fbbf24;
+            border: 1px solid #fbbf24;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+        .btn:hover {
+            background-color: #fbbf24;
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1 th:text="${appName}">Uygulama Adı</h1>
+    <span class="badge" th:text="${version}">v1.0</span>
+
+    <div class="info-item">
+        <span class="label">Geliştirici</span>
+        <span class="value" th:text="${studentName}">Öğrenci Adı</span>
+    </div>
+
+    <div class="info-item">
+        <span class="label">Sunucu Zamanı</span>
+        <span class="value" th:text="${serverTime}">00:00</span>
+    </div>
+
+    <div class="info-item">
+        <span class="label">Teknoloji Yığını</span>
+        <span class="value">Spring Boot + Thymeleaf</span>
+    </div>
+
+    <a href="http://localhost:5173/home" class="btn">React Uygulamasına Git →</a>
+
+    <div class="footer">
+        Bu sayfa Server-Side Rendering (SSR) ile oluşturulmuştur.
+    </div>
+</div>
+
+</body>
+</html>

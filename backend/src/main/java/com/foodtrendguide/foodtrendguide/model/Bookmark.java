@@ -1,6 +1,6 @@
 package com.foodtrendguide.foodtrendguide.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties; // 👈 Import
 import com.foodtrendguide.foodtrendguide.entity.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Table(name = "bookmarks")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Bookmark {
 
     @Id
@@ -23,9 +22,11 @@ public class Bookmark {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "venue_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "bookmarks", "photos"})
     private Venue venue;
 }

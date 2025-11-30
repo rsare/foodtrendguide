@@ -11,6 +11,7 @@ com\foodtrendguide\foodtrendguide\repository\VenueRepository.class
 com\foodtrendguide\foodtrendguide\config\SecurityConfig.class
 com\foodtrendguide\foodtrendguide\controller\VenueController.class
 com\foodtrendguide\foodtrendguide\controller\BookmarkController.class
+com\foodtrendguide\foodtrendguide\controller\AdminController.class
 com\foodtrendguide\foodtrendguide\service\BookmarkService.class
 com\foodtrendguide\foodtrendguide\FoodTrendGuideApplication.class
 com\foodtrendguide\foodtrendguide\model\Bookmark.class
@@ -21,6 +22,7 @@ com\foodtrendguide\config\CorsConfig$1.class
 com\foodtrendguide\config\CorsConfig.class
 com\foodtrendguide\foodtrendguide\config\WebConfig.class
 com\foodtrendguide\foodtrendguide\service\PhotoService.class
+com\foodtrendguide\foodtrendguide\controller\InfoController.class
 com\foodtrendguide\foodtrendguide\controller\AuthController.class
 com\foodtrendguide\foodtrendguide\repository\BookmarkRepository.class
 com\foodtrendguide\foodtrendguide\dto\LoginRequest.class
@@ -31,3 +33,4 @@ com\foodtrendguide\foodtrendguide\model\Review$ReviewBuilder.class
 com\foodtrendguide\foodtrendguide\config\WebConfig$1.class
 com\foodtrendguide\foodtrendguide\model\Photo$PhotoBuilder.class
 com\foodtrendguide\foodtrendguide\config\DataLoader.class
+com\foodtrendguide\foodtrendguide\controller\UserController.class

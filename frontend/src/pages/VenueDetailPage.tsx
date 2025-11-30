@@ -29,7 +29,6 @@ function VenueDetailPage() {
 
                 if (currentVenue) {
                     setVenue(currentVenue);
-
                     const brandName = currentVenue.name.split(" ").slice(0, 2).join(" ").toLowerCase();
                     const otherBranches = allVenues.filter(v =>
                         v.id !== currentVenue.id &&
@@ -42,122 +41,127 @@ function VenueDetailPage() {
             .catch(() => setLoading(false));
     }, [id]);
 
-    if (loading) return <div className="text-white text-center mt-20 text-xl">Yükleniyor...</div>;
-    if (!venue) return <div className="text-white text-center mt-20 text-xl">Mekan bulunamadı.</div>;
+    if (loading) return <div className="min-h-screen flex items-center justify-center bg-[#0f1115] text-gray-400">Yükleniyor...</div>;
+    if (!venue) return <div className="min-h-screen flex items-center justify-center bg-[#0f1115] text-gray-400">Mekan bulunamadı.</div>;
 
     return (
-        <div className="min-h-screen bg-gray-900 text-white font-sans p-4 md:p-8 flex flex-col items-center">
+        // Arka planı daha koyu ve mat bir ton yaptık (#0f1115)
+        <div className="min-h-screen bg-[#0f1115] text-white font-sans selection:bg-yellow-500/30">
 
-            {/* Geri Dön Butonu */}
-            <div className="w-full max-w-6xl mb-6">
+            {/* Geri Dön (Daha minimal) */}
+            <div className="max-w-7xl mx-auto pt-8 px-6">
                 <button
                     onClick={() => navigate("/home")}
-                    className="flex items-center gap-2 text-gray-400 hover:text-white transition group"
+                    className="flex items-center gap-2 text-gray-500 hover:text-white transition-colors text-sm font-medium tracking-wide"
                 >
-                    <span className="group-hover:-translate-x-1 transition text-xl">←</span> Geri Dön
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    ANA SAYFAYA DÖN
                 </button>
             </div>
 
-            {/* 🔥 ANA KART (Yatay Hafız Mustafa Tasarımı) */}
-            {/* max-h-[500px] diyerek kartın aşırı uzamasını engelledik */}
-            <div className="bg-gray-800 rounded-3xl overflow-hidden shadow-2xl max-w-6xl w-full flex flex-col md:flex-row border border-gray-700 md:max-h-[500px]">
+            <div className="max-w-7xl mx-auto p-6 flex flex-col gap-12">
 
-                {/* 1. RESİM ALANI (Sol Taraf - Genişlik %45) */}
-                <div className="md:w-5/12 h-64 md:h-auto relative">
-                    <img
-                        src={venue.imageUrl}
-                        alt={venue.name}
-                        className="w-full h-full object-cover absolute inset-0"
-                    />
-                    {/* Hafif karartma */}
-                    <div className="absolute inset-0 bg-black/20"></div>
-                </div>
+                {/* 🔥 ANA KART (Modern & Borderless) */}
+                <div className="flex flex-col lg:flex-row bg-[#181a20] rounded-[2rem] overflow-hidden shadow-2xl shadow-black/50">
 
-                {/* 2. BİLGİ ALANI (Sağ Taraf - Genişlik %55) */}
-                <div className="md:w-7/12 p-8 md:p-10 flex flex-col justify-center bg-gray-800 relative">
+                    {/* SOL: Resim (Daha sinematik) */}
+                    <div className="lg:w-1/2 relative h-[400px] lg:h-[550px]">
+                        <img
+                            src={venue.imageUrl}
+                            alt={venue.name}
+                            className="w-full h-full object-cover"
+                        />
+                        {/* Gradient Overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#181a20] via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-[#181a20]"></div>
+                    </div>
 
-                    {/* Başlık ve Puan */}
-                    <div className="flex justify-between items-start mb-4">
-                        <div>
-                            <h1 className="text-3xl md:text-4xl font-extrabold text-yellow-400 leading-tight mb-2">
-                                {venue.name}
-                            </h1>
-                            <p className="text-gray-400 text-sm flex items-center gap-1">
-                                📍 {venue.district}, {venue.city}
-                            </p>
+                    {/* SAĞ: İçerik */}
+                    <div className="lg:w-1/2 p-8 lg:p-16 flex flex-col justify-center relative">
+
+                        {/* Üst Kısım: Puan ve Kategori */}
+                        <div className="flex items-center gap-4 mb-6">
+                            <div className="flex items-center gap-1.5 text-yellow-400 font-bold text-xl">
+                                <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                <span>{venue.rating.toFixed(1)}</span>
+                            </div>
+                            <span className="w-1 h-1 bg-gray-600 rounded-full"></span>
+                            <span className="text-gray-400 text-sm tracking-widest uppercase font-semibold">{venue.category}</span>
                         </div>
-                        <div className="bg-yellow-500 text-black font-bold px-3 py-1.5 rounded-lg text-lg flex items-center gap-1 shadow-lg shrink-0">
-                            <span>★</span> {venue.rating.toFixed(1)}
-                        </div>
-                    </div>
 
-                    {/* Adres */}
-                    <div className="mb-6">
-                        <p className="text-gray-300 text-base md:text-lg leading-relaxed border-l-4 border-gray-600 pl-4 py-1">
-                            {venue.address}
-                        </p>
-                    </div>
+                        {/* Başlık */}
+                        <h1 className="text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight">
+                            {venue.name}
+                        </h1>
 
-                    {/* Etiketler */}
-                    <div className="flex flex-wrap gap-2 mb-8">
-                        <span className="bg-gray-700/50 px-3 py-1.5 rounded-lg text-sm text-gray-300 border border-gray-600">
-                            {venue.city}
-                        </span>
-                        <span className="bg-gray-700/50 px-3 py-1.5 rounded-lg text-sm text-gray-300 border border-gray-600">
-                            {venue.district}
-                        </span>
-                        <span className={`px-3 py-1.5 rounded-lg text-sm font-medium border ${
-                            venue.category === 'Tatlı' ? 'bg-pink-900/20 text-pink-300 border-pink-800' :
-                                venue.category === 'Kahve' ? 'bg-yellow-900/20 text-yellow-300 border-yellow-800' :
-                                    'bg-blue-900/20 text-blue-300 border-blue-800'
-                        }`}>
-                            {venue.category}
-                        </span>
-                    </div>
-
-                    {/* Buton (Alt kısma yasla) */}
-                    <div className="mt-auto">
-                        <button
-                            className="w-full bg-green-600 hover:bg-green-500 text-white font-bold py-3.5 px-6 rounded-xl transition shadow-lg flex justify-center items-center gap-2 text-base"
-                            onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(venue.name + " " + venue.address)}`, '_blank')}
-                        >
-                            🗺️ Yol Tarifi Al
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            {/* DİĞER ŞUBELER */}
-            {branches.length > 0 && (
-                <div className="w-full max-w-6xl mt-12">
-                    <h2 className="text-2xl font-bold mb-6 flex items-center gap-2 border-b border-gray-700 pb-3">
-                        <span className="text-yellow-500">📍</span>
-                        <span className="text-white">{venue.name.split(" ").slice(0, 2).join(" ")}</span>
-                        <span className="text-gray-400 font-normal">- Diğer Şubeleri</span>
-                    </h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                        {branches.map((branch) => (
-                            <div
-                                key={branch.id}
-                                onClick={() => {
-                                    navigate(`/venue/${branch.id}`);
-                                    window.scrollTo(0, 0);
-                                }}
-                                className="bg-gray-800 rounded-xl p-3 border border-gray-700 hover:bg-gray-700 hover:border-yellow-500/50 cursor-pointer transition flex items-center gap-3 group"
-                            >
-                                <img src={branch.imageUrl} className="w-16 h-16 rounded-lg object-cover group-hover:scale-105 transition shrink-0" />
-                                <div className="min-w-0"> {/* min-w-0 truncate için gerekli */}
-                                    <h3 className="font-bold text-white text-sm truncate group-hover:text-yellow-400 transition">{branch.name}</h3>
-                                    <p className="text-xs text-gray-400 mb-1 truncate">{branch.district}</p>
-                                    <span className="text-[10px] bg-black/40 px-1.5 py-0.5 rounded text-yellow-400 font-bold border border-yellow-500/20">
-                                        ★ {branch.rating.toFixed(1)}
-                                    </span>
+                        {/* Adres ve Lokasyon */}
+                        <div className="space-y-4 mb-10">
+                            <div className="flex items-start gap-3">
+                                <span className="mt-1 p-2 bg-white/5 rounded-full text-gray-400">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                </span>
+                                <div>
+                                    <h3 className="text-white font-medium text-lg">{venue.district}, {venue.city}</h3>
+                                    <p className="text-gray-500 text-sm mt-1 leading-relaxed">{venue.address}</p>
                                 </div>
                             </div>
-                        ))}
+                        </div>
+
+                        {/* Aksiyon Butonu (Modern Gradient) */}
+                        <div className="mt-auto">
+                            <button
+                                onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(venue.name + " " + venue.address)}`, '_blank')}
+                                className="group w-full sm:w-auto bg-white text-black hover:bg-yellow-400 font-bold py-4 px-8 rounded-xl transition-all duration-300 flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(250,204,21,0.4)]"
+                            >
+                                <span>Yol Tarifi Al</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
+                            </button>
+                        </div>
                     </div>
                 </div>
-            )}
+
+                {/* DİĞER ŞUBELER (Minimal Grid) */}
+                {branches.length > 0 && (
+                    <div className="mt-8">
+                        <div className="flex items-center justify-between mb-8">
+                            <h2 className="text-2xl font-bold text-white">Diğer Şubeler</h2>
+                            <div className="h-[1px] flex-grow bg-gray-800 ml-6"></div>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                            {branches.map((branch) => (
+                                <div
+                                    key={branch.id}
+                                    onClick={() => {
+                                        navigate(`/venue/${branch.id}`);
+                                        window.scrollTo(0, 0);
+                                    }}
+                                    className="group cursor-pointer"
+                                >
+                                    {/* Şube Resmi */}
+                                    <div className="relative h-48 rounded-2xl overflow-hidden mb-4">
+                                        <img
+                                            src={branch.imageUrl}
+                                            className="w-full h-full object-cover transition duration-700 group-hover:scale-110"
+                                        />
+                                        <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition"></div>
+                                        <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-md px-2 py-1 rounded-lg text-xs font-bold text-yellow-400 border border-white/10">
+                                            {branch.rating.toFixed(1)}
+                                        </div>
+                                    </div>
+
+                                    {/* Şube Bilgisi */}
+                                    <div>
+                                        <h3 className="font-bold text-white text-lg group-hover:text-yellow-400 transition truncate">{branch.name}</h3>
+                                        <p className="text-gray-500 text-sm mt-1">{branch.district}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+            </div>
         </div>
     );
 }
