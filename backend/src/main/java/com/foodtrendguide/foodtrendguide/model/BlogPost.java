@@ -9,26 +9,26 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "reviews")
+@Table(name = "blog_posts")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Review {
+public class BlogPost {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String text; // Yorum içeriği
-    private int rating;  // Kullanıcının verdiği puan (1-5)
-    private LocalDateTime createdAt = LocalDateTime.now(); // Yorum tarihi
+    private String title; // Yazı Başlığı
+
+    @Column(columnDefinition = "TEXT") // Uzun yazılar için
+    private String content;
+
+    private String imageUrl; // Kapak resmi (Opsiyonel)
+
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "password"})
-    private User user;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "venue_id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "reviews", "bookmarks", "photos"})
-    private Venue venue;
+    private User author; // Yazarı
 }

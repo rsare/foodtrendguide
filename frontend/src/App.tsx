@@ -6,6 +6,8 @@ import VenueDetail from "./pages/VenueDetailPage";
 import FavoritesPage from "./pages/FavoritesPage";
 import ProfilePage from "./pages/ProfilePage";
 import type {JSX} from "react";
+import BlogPage from "./pages/BlogPage";
+import BlogDetailPage from "./pages/BlogDetailPage"; // 👈 Import et
 
 
 // 🔥 KORUMALI ROTA BİLEŞENİ (ÖZEL BEKÇİ)
@@ -41,10 +43,11 @@ function App() {
                 {/* Mekan Detay Sayfası (Herkes görebilir) */}
                 <Route path="/venue/:id" element={<VenueDetail />} />
 
+                <Route path="/blog" element={<BlogPage />} />
+                {/* 👇 YENİ ROTA: ID parametresi alır */}
+                <Route path="/blog/:id" element={<BlogDetailPage />} />
 
-                {/* --- KORUMALI ROTALAR (Protected Routes) --- */}
-                {/* Bu sayfalara sadece giriş yapmış kullanıcılar girebilir */}
-
+                <Route path="/blog" element={<BlogPage />} />
                 {/* Favoriler Sayfası */}
                 <Route
                     path="/favorites"

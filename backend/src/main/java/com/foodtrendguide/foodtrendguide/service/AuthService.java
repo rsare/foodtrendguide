@@ -39,13 +39,14 @@ public class AuthService {
             // Varsa, o kullanıcıyı döndür (Giriş yap)
             return existingUser.get();
         } else {
-            // Yoksa, YENİ KULLANICI OLUŞTUR (Kayıt ol)
+            // ⚠️ YOKSA KAYDET (Burayı atlamış olabiliriz)
             User newUser = new User();
             newUser.setEmail(email);
             newUser.setFullName(fullName);
-            // Google ile girenlerin şifresi olmaz ama veritabanı null sevmezse rastgele bir şey atayalım
-            newUser.setPassword(passwordEncoder.encode("GOOGLE_USER_" + System.currentTimeMillis()));
+            // Google kullanıcıları şifre girmez ama DB hata vermesin diye rastgele şifreliyoruz
+            newUser.setPassword(passwordEncoder.encode("GOOGLE_USER_" + java.util.UUID.randomUUID()));
 
+            // 🔥 BU SATIR ÇOK ÖNEMLİ: user'ı veritabanına yazıyor
             return userRepository.save(newUser);
         }
     }

@@ -133,6 +133,15 @@ function HomePage() {
                                 </svg>
                                 <span className="hidden sm:inline">Favorilerim</span>
                             </button>
+                            <button
+                                onClick={() => navigate("/blog")}
+                                className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors font-medium text-sm"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                                </svg>
+                                <span className="hidden sm:inline">Blog / Keşfet</span>
+                            </button>
                             <button onClick={handleLogout} className="flex items-center gap-2 text-red-400 hover:text-red-300 transition-colors text-sm font-medium border border-red-500/20 px-4 py-2 rounded-lg hover:bg-red-500/10">
                                 <span>Çıkış Yap</span>
                             </button>

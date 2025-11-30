@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { GoogleLogin, type CredentialResponse } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
 
-// 1. Google'dan gelen verinin tipi (Kullanılacağı için artık gri yanmayacak)
+// 1. Google'dan gelen verinin tipi (Artık kullanılacağı için hata vermeyecek)
 interface GoogleTokenPayload {
     name: string;
     email: string;
@@ -16,6 +16,7 @@ function LoginPage() {
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [rememberMe, setRememberMe] = useState(false);
     const [error, setError] = useState("");
 
     const handleLogin = async (e: React.FormEvent) => {
@@ -49,7 +50,7 @@ function LoginPage() {
     const handleGoogleSuccess = async (credentialResponse: CredentialResponse) => {
         try {
             if (credentialResponse.credential) {
-                // 🔥 2. HATA ÇÖZÜMÜ: 'any' yerine tanımladığımız Interface'i kullanıyoruz
+                // 🔥 2. HATA ÇÖZÜMÜ: 'any' yerine <GoogleTokenPayload> kullandık
                 const decoded = jwtDecode<GoogleTokenPayload>(credentialResponse.credential);
                 console.log("Google Login Başarılı:", decoded);
 
@@ -139,7 +140,12 @@ function LoginPage() {
 
                     <div className="flex items-center justify-between text-sm">
                         <label className="flex items-center gap-2 cursor-pointer group">
-                            <input type="checkbox" className="w-4 h-4 rounded border-gray-700 bg-[#0f1115] text-yellow-500 focus:ring-offset-0 focus:ring-yellow-500/50 cursor-pointer accent-yellow-500"/>
+                            <input
+                                type="checkbox"
+                                checked={rememberMe}
+                                onChange={(e) => setRememberMe(e.target.checked)}
+                                className="w-4 h-4 rounded border-gray-700 bg-[#0f1115] text-yellow-500 focus:ring-offset-0 focus:ring-yellow-500/50 cursor-pointer accent-yellow-500"
+                            />
                             <span className="text-gray-400 group-hover:text-white transition-colors select-none">Beni hatırla</span>
                         </label>
                         <a href="#" className="text-yellow-500 hover:text-yellow-400 font-medium transition-colors">Şifremi unuttum?</a>

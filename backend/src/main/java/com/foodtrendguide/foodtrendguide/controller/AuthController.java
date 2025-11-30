@@ -1,7 +1,6 @@
 package com.foodtrendguide.foodtrendguide.controller;
 
 import com.foodtrendguide.foodtrendguide.entity.User;
-import com.foodtrendguide.foodtrendguide.model.LoginRequest;
 import com.foodtrendguide.foodtrendguide.repository.UserRepository;
 import com.foodtrendguide.foodtrendguide.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import com.foodtrendguide.foodtrendguide.model.GoogleLoginRequest;
+
 
 import java.util.Map;
 
@@ -26,6 +26,21 @@ public class AuthController {
 
     // Şifre karşılaştırmak için bunu eklemelisin
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+
+    @PostMapping("/google")
+    public ResponseEntity<?> googleLogin(@RequestBody GoogleLoginRequest request) {
+        // Servisteki metodu çağır (Kaydet veya Bul)
+        User user = authService.loginWithGoogle(request.getEmail(), request.getFullName());
+
+        // 🔥 Frontende GERÇEK UserID'yi dönüyoruz
+        return ResponseEntity.ok(Map.of(
+                "token", "dummy-jwt-token-google",
+                "userId", user.getId(), // Bu ID not ve blog eklerken lazım olacak
+                "fullName", user.getFullName(),
+                "message", "Google ile giriş başarılı"
+        ));
+    }
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User user) {
@@ -65,18 +80,4 @@ public class AuthController {
     }
 
 
-
-    @PostMapping("/google")
-    public ResponseEntity<?> googleLogin(@RequestBody GoogleLoginRequest request) {
-        // Servisteki metodu çağır (Kaydet veya Bul)
-        User user = authService.loginWithGoogle(request.getEmail(), request.getFullName());
-
-        // Başarılı cevabı dön
-        return ResponseEntity.ok(Map.of(
-                "token", "dummy-jwt-token-google",
-                "userId", user.getId(),
-                "fullName", user.getFullName(),
-                "message", "Google ile giriş başarılı"
-        ));
-    }
 }

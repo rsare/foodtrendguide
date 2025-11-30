@@ -1,9 +1,19 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios, { AxiosError } from "axios"; // AxiosError eklendi
 // 👇 Google Importları
 import { GoogleLogin, type CredentialResponse } from '@react-oauth/google';
 import { jwtDecode } from "jwt-decode";
+
+// 🔥 1. ADIM: Google Token Veri Tipini Tanımlıyoruz
+// Bu sayede 'any' kullanmamıza gerek kalmıyor.
+interface GoogleTokenPayload {
+    email: string;
+    name: string;
+    picture?: string;
+    sub: string;
+    // İhtiyaç olursa diğer alanlar da eklenebilir
+}
 
 const RegisterPage: React.FC = () => {
     const navigate = useNavigate();
@@ -25,8 +35,16 @@ const RegisterPage: React.FC = () => {
             await axios.post("http://localhost:8081/api/auth/register", formData);
             alert("Kayıt başarılı! Lütfen giriş yapın.");
             navigate("/login");
-        } catch (err: any) {
-            setError(err.response?.data?.message || "Kayıt işlemi başarısız.");
+        } catch (err: unknown) { // 'any' yerine 'unknown' kullanıyoruz
+            console.error("Kayıt hatası:", err);
+
+            // Hatanın Axios kaynaklı olup olmadığını kontrol ediyoruz
+            if (err instanceof AxiosError && err.response?.data) {
+                const errorData = err.response.data as { message?: string; error?: string };
+                setError(errorData.message || errorData.error || "Kayıt işlemi başarısız.");
+            } else {
+                setError("Bir bağlantı hatası oluştu.");
+            }
         }
     };
 
@@ -34,25 +52,25 @@ const RegisterPage: React.FC = () => {
     const handleGoogleSuccess = async (credentialResponse: CredentialResponse) => {
         try {
             if (credentialResponse.credential) {
-                // 1. Google'dan gelen Token'ı çöz
-                const decoded: any = jwtDecode(credentialResponse.credential);
+                // 2. ADIM: Tanımladığımız Interface'i burada kullanıyoruz
+                const decoded = jwtDecode<GoogleTokenPayload>(credentialResponse.credential);
                 console.log("Google Bilgileri:", decoded);
 
-                // 2. Bu bilgileri Backend'e gönder (Backend'de Google Login endpoint'i yazılması gerekir)
-                // Şimdilik sadece frontend'de giriş yapmış gibi davranalım:
+                // Backend'e gönder
+                const res = await axios.post("http://localhost:8081/api/auth/google", {
+                    email: decoded.email,
+                    fullName: decoded.name,
+                    token: credentialResponse.credential
+                });
 
-                /* NORMALDE BURADA BACKEND İSTEĞİ OLUR:
-                   const res = await axios.post("http://localhost:8081/api/auth/google", { token: credentialResponse.credential });
-                   localStorage.setItem("token", res.data.token);
-                */
+                if (res.status === 200) {
+                    localStorage.setItem("token", res.data.token);
+                    localStorage.setItem("userId", res.data.userId);
+                    localStorage.setItem("fullName", res.data.fullName);
 
-                // Geçici Simülasyon (Backend hazır olana kadar):
-                localStorage.setItem("token", "google-dummy-token");
-                localStorage.setItem("userId", "google-user");
-                localStorage.setItem("fullName", decoded.name); // Google'dan gelen isim
-
-                alert(`Hoş geldin ${decoded.name}! Google ile giriş yapıldı.`);
-                navigate("/home");
+                    alert(`Hoş geldin ${decoded.name}! Google ile giriş yapıldı.`);
+                    navigate("/home");
+                }
             }
         } catch (error) {
             console.error("Google Login Hatası", error);
@@ -72,7 +90,8 @@ const RegisterPage: React.FC = () => {
 
                 {error && (
                     <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-xl flex items-center gap-3 text-red-400 text-sm">
-                        ⚠️ {error}
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        {error}
                     </div>
                 )}
 
@@ -111,10 +130,10 @@ const RegisterPage: React.FC = () => {
                 <div className="mt-8">
                     <div className="relative">
                         <div className="absolute inset-0 flex items-center">
-                            <div className="w-full border-t border-gray-700"></div>
+                            <div className="w-full border-t border-gray-800"></div>
                         </div>
-                        <div className="relative flex justify-center text-sm">
-                            <span className="px-4 bg-[#181a20] text-gray-500">veya şununla devam et</span>
+                        <div className="relative flex justify-center text-xs uppercase tracking-widest font-bold">
+                            <span className="px-4 bg-[#181a20] text-gray-600">veya</span>
                         </div>
                     </div>
 
