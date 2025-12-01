@@ -1,38 +1,4 @@
 package com.foodtrendguide.foodtrendguide.controller;
-//
-//import com.foodtrendguide.foodtrendguide.model.Venue;
-//import com.foodtrendguide.foodtrendguide.service.VenueService;
-//import lombok.RequiredArgsConstructor;
-//import org.springframework.web.bind.annotation.*;
-//
-//import java.util.List;
-//
-//@RestController
-//@RequestMapping("/api/venues")
-//@RequiredArgsConstructor
-//@CrossOrigin(origins = "http://localhost:5173")
-//public class VenueController {
-//
-//    private final VenueService venueService;
-//
-//    @GetMapping
-//    public List<Venue> getVenues() {
-//        return venueService.getAllVenues();
-//    }
-//
-//    @GetMapping("/api/venues")
-//    public List<Venue> getAllVenues() {
-//        return venueService.findAll();
-//    }
-//
-//
-//    @PostMapping
-//    public Venue addVenue(@RequestBody Venue venue) {
-//        return venueService.addVenue(venue);
-//    }
-//
-//
-//}
 
 import com.foodtrendguide.foodtrendguide.model.Venue;
 import com.foodtrendguide.foodtrendguide.service.VenueService;
