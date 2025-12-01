@@ -19,7 +19,7 @@ function BlogDetailPage() {
 
     useEffect(() => {
         // Backend'den tekil yazıyı çek
-        axios.get(`http://localhost:8081/api/blog/${id}`)
+        axios.get(`http://16.16.204.14:8081/api/blog/${id}`)
             .then((res) => {
                 setPost(res.data);
                 setLoading(false);

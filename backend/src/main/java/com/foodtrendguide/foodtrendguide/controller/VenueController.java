@@ -45,7 +45,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/venues")
-@CrossOrigin(origins = "http://localhost:5188") // Vite portunu yaz
+@CrossOrigin(origins = " http://16.16.204.14:8081/api") // Vite portunu yaz
 public class VenueController {
 
     private final VenueService venueService;

@@ -22,9 +22,7 @@ com\foodtrendguide\foodtrendguide\repository\PhotoRepository.class
 com\foodtrendguide\foodtrendguide\controller\ReviewController.class
 com\foodtrendguide\foodtrendguide\repository\ReviewRepository.class
 com\foodtrendguide\foodtrendguide\model\Photo.class
-com\foodtrendguide\config\CorsConfig$1.class
 com\foodtrendguide\foodtrendguide\model\BlogPost.class
-com\foodtrendguide\config\CorsConfig.class
 com\foodtrendguide\foodtrendguide\config\WebConfig.class
 com\foodtrendguide\foodtrendguide\service\PhotoService.class
 com\foodtrendguide\foodtrendguide\controller\InfoController.class
@@ -39,5 +37,6 @@ com\foodtrendguide\foodtrendguide\entity\User.class
 com\foodtrendguide\foodtrendguide\service\AuthService.class
 com\foodtrendguide\foodtrendguide\config\WebConfig$1.class
 com\foodtrendguide\foodtrendguide\model\Photo$PhotoBuilder.class
+com\foodtrendguide\foodtrendguide\config\CorsConfig.class
 com\foodtrendguide\foodtrendguide\config\DataLoader.class
 com\foodtrendguide\foodtrendguide\controller\UserController.class
