@@ -32,7 +32,7 @@ function HomePage() {
     const [showAuthModal, setShowAuthModal] = useState(false);
 
     useEffect(() => {
-        axios.get("http://16.16.204.14:8081/api/venues")
+        axios.get("/api/venues")
             .then((res) => setVenues(res.data))
             .catch(() => setVenues([]));
     }, []);
@@ -68,7 +68,7 @@ function HomePage() {
         if (!userId) return;
 
         try {
-            await axios.post(`http://16.16.204.14:8081/api/bookmarks/${userId}/${venueId}`);
+            await axios.post(`/api/bookmarks/${userId}/${venueId}`);
             alert("Favori listesi güncellendi.");
         } catch (error) {
             console.error("Favori hatası:", error);

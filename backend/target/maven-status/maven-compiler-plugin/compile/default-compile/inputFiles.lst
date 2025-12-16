@@ -9,6 +9,7 @@ C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendgui
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\controller\BookmarkController.java
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\controller\InfoController.java
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\controller\NoteController.java
+C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\controller\PageController.java
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\controller\PhotoController.java
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\controller\ReviewController.java
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\controller\UserController.java
@@ -34,6 +35,7 @@ C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendgui
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\service\AuthService.java
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\service\BookmarkService.java
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\service\GooglePlacesService.java
+C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\service\LoginAttemptService.java
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\service\OpenStreetMapService.java
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\service\PhotoService.java
 C:\Projects\foodtrendguide\backend\src\main\java\com\foodtrendguide\foodtrendguide\service\VenueService.java

@@ -13,7 +13,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/notes")
-@CrossOrigin(origins = " http://16.16.204.14:8081/api")
+
 public class NoteController {
 
     @Autowired private NoteRepository noteRepository;

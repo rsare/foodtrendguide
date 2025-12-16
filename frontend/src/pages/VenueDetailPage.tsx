@@ -36,7 +36,7 @@ function VenueDetailPage() {
 
     useEffect(() => {
         // 1. Mekan Detaylarını ve Şubeleri Çek
-        axios.get("http://16.16.204.14:8081/api/venues")
+        axios.get("/api/venues")
             .then((res) => {
                 const allVenues: Venue[] = res.data;
                 const currentVenue = allVenues.find(v => v.id === Number(id));
@@ -56,7 +56,7 @@ function VenueDetailPage() {
 
         // 2. Yorumları Çek
         if(id) {
-            axios.get(`http://16.16.204.14:8081/api/reviews/venue/${id}`)
+            axios.get(`/api/reviews/venue/${id}`)
                 .then(res => setReviews(res.data))
                 .catch(err => console.error("Yorumlar çekilemedi", err));
         }
@@ -75,13 +75,13 @@ function VenueDetailPage() {
         }
 
         try {
-            await axios.post(`http://16.16.204.14:8081/api/reviews/${userId}/${id}`, {
+            await axios.post(`/api/reviews/${userId}/${id}`, {
                 text: newReview,
                 rating: newRating.toString()
             });
 
             // Yorumları yenile
-            const res = await axios.get(`http://16.16.204.14:8081/api/reviews/venue/${id}`);
+            const res = await axios.get(`/api/reviews/venue/${id}`);
             setReviews(res.data);
 
             // Formu temizle

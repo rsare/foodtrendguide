@@ -24,7 +24,7 @@ function LoginPage() {
         setError("");
 
         try {
-            const response = await axios.post("http://16.16.204.14:8081/api/auth/login", {
+            const response = await axios.post("/api/auth/login", {
                 email,
                 password,
             });
@@ -55,7 +55,7 @@ function LoginPage() {
                 console.log("Google Login Başarılı:", decoded);
 
                 // Backend'e gönder
-                const res = await axios.post("http://16.16.204.14:8081/api/auth/google", {
+                const res = await axios.post("/api/auth/google", {
                     email: decoded.email,
                     fullName: decoded.name,
                     token: credentialResponse.credential

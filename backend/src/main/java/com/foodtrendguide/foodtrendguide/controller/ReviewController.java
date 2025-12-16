@@ -15,7 +15,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/reviews")
-@CrossOrigin(origins = "http://16.16.204.14")
+
 public class ReviewController {
 
     @Autowired private ReviewRepository reviewRepository;

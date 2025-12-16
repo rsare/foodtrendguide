@@ -1,14 +1,11 @@
-import axios from "axios";
+import axios from 'axios';
 
-const API_BASE_URL = "http://16.16.204.14:8081";
+// Eski hali ne olursa olsun sil ve bunu yapıştır:
+const api = axios.create({
+    baseURL: "/api", // <-- İŞTE SİHİRLİ KISIM BU
+    headers: {
+        'Content-Type': 'application/json',
+    },
+});
 
-export const registerUser = async (payload: {
-    name: string;
-    email: string;
-    password: string;
-}) => {
-    const res = await axios.post(`${API_BASE_URL}/api/auth/register`, payload, {
-        withCredentials: true,
-    });
-    return res.data;
-};
+export default api;

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Yönetim Paneli Giriş</title>
+</head>
+<body>
+<h1>Food Trend Guide - Backend Paneli</h1>
+<p>Admin veya Bilgi sayfalarına buradan gidebilirsin.</p>
+
+<a th:href="@{/admin}">
+    <button style="padding: 10px; background-color: #007bff; color: white; border: none; cursor: pointer;">
+        Admin Paneline Git
+    </button>
+</a>
+
+<br><br>
+
+<a th:href="@{/info}">
+    <button style="padding: 10px; background-color: #28a745; color: white; border: none; cursor: pointer;">
+        Bilgi Sayfasına Git
+    </button>
+</a>
+</body>
+</html>

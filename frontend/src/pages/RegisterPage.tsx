@@ -32,7 +32,7 @@ const RegisterPage: React.FC = () => {
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            await axios.post("http://16.16.204.14:8081/api/auth/register", formData);
+            await axios.post("/api/auth/register", formData);
             alert("Kayıt başarılı! Lütfen giriş yapın.");
             navigate("/login");
         } catch (err: unknown) { // 'any' yerine 'unknown' kullanıyoruz
@@ -57,7 +57,7 @@ const RegisterPage: React.FC = () => {
                 console.log("Google Bilgileri:", decoded);
 
                 // Backend'e gönder
-                const res = await axios.post("http://16.16.204.14:8081/api/auth/google", {
+                const res = await axios.post("/api/auth/google", {
                     email: decoded.email,
                     fullName: decoded.name,
                     token: credentialResponse.credential
@@ -148,7 +148,7 @@ const RegisterPage: React.FC = () => {
                             theme="filled_black" // Koyu temaya uygun
                             shape="circle" // Köşeleri yuvarlak
                             text="signup_with" // "Google ile kaydol" yazar
-                            width="100%"
+                            width="300"
                             locale="tr"
                         />
                     </div>

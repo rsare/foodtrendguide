@@ -13,7 +13,8 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/blog")
-@CrossOrigin(origins = " http://16.16.204.14:8081/api")
+
+//@CrossOrigin(origins = " http://172.31.26.163:3000/api")
 public class BlogPostController {
 
     @Autowired private BlogPostRepository blogPostRepository;

@@ -58,16 +58,16 @@ function ProfilePage() {
         const fetchData = async () => {
             try {
                 // Kullanıcı Bilgisi
-                const userRes = await axios.get(`http://16.16.204.14:8081/api/users/${storedUserId}`);
+                const userRes = await axios.get(`/api/users/${storedUserId}`);
                 setFullName(userRes.data.fullName);
                 setEmail(userRes.data.email);
 
                 // Blogları Çek
-                const blogRes = await axios.get(`http://16.16.204.14:8081/api/blog/user/${storedUserId}`);
+                const blogRes = await axios.get(`/api/blog/user/${storedUserId}`);
                 setPosts(blogRes.data);
 
                 // Notları Çek
-                const notesRes = await axios.get(`http://16.16.204.14:8081/api/notes/user/${storedUserId}`);
+                const notesRes = await axios.get(`/api/notes/user/${storedUserId}`);
                 setNotes(notesRes.data);
 
                 setLoading(false);
@@ -95,7 +95,7 @@ function ProfilePage() {
                 payload.password = password;
             }
 
-            await axios.put(`http://16.16.204.14:8081/api/users/${userId}`, payload);
+            await axios.put(`/api/users/${userId}`, payload);
             localStorage.setItem("fullName", fullName);
             alert("Profil güncellendi! ✅");
             setPassword("");
@@ -109,8 +109,8 @@ function ProfilePage() {
     const handleAddPost = async () => {
         if (!blogTitle || !blogContent) return alert("Başlık ve içerik giriniz.");
         try {
-            await axios.post(`http://16.16.204.14:8081/api/blog/${userId}`, { title: blogTitle, content: blogContent });
-            const res = await axios.get(`http://16.16.204.14:8081/api/blog/user/${userId}`);
+            await axios.post(`/api/blog/${userId}`, { title: blogTitle, content: blogContent });
+            const res = await axios.get(`/api/blog/user/${userId}`);
             setPosts(res.data);
             setBlogTitle(""); setBlogContent("");
             alert("Yazı paylaşıldı.");
@@ -120,7 +120,7 @@ function ProfilePage() {
     const handleDeletePost = async (id: number) => {
         if(!window.confirm("Silmek istiyor musun?")) return;
         try {
-            await axios.delete(`http://16.16.204.14:8081/api/blog/${id}`);
+            await axios.delete(`/api/blog/${id}`);
             setPosts(posts.filter(p => p.id !== id));
         } catch(e) { console.error(e); }
     };
@@ -129,8 +129,8 @@ function ProfilePage() {
     const handleAddNote = async () => {
         if (!noteTitle || !noteContent) return alert("Başlık ve içerik giriniz.");
         try {
-            await axios.post(`http://16.16.204.14:8081/api/notes/${userId}`, { title: noteTitle, content: noteContent });
-            const res = await axios.get(`http://16.16.204.14:8081/api/notes/user/${userId}`);
+            await axios.post(`/api/notes/${userId}`, { title: noteTitle, content: noteContent });
+            const res = await axios.get(`/api/notes/user/${userId}`);
             setNotes(res.data);
             setNoteTitle(""); setNoteContent("");
         } catch (e) { console.error(e); }
@@ -139,7 +139,7 @@ function ProfilePage() {
     const handleDeleteNote = async (id: number) => {
         if(!window.confirm("Notu silmek istiyor musun?")) return;
         try {
-            await axios.delete(`http://16.16.204.14:8081/api/notes/${id}`);
+            await axios.delete(`/api/notes/${id}`);
             setNotes(notes.filter(n => n.id !== id));
         } catch(e) { console.error(e); }
     };

@@ -2,10 +2,12 @@ package com.foodtrendguide.foodtrendguide.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
 
 @Controller // ⚠️ Dikkat: @RestController DEĞİL, @Controller kullanıyoruz (HTML döneceği için)
 public class InfoController {

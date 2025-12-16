@@ -9,7 +9,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/photos")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://16.16.204.14")
+
 public class PhotoController {
 
     private final PhotoService photoService;

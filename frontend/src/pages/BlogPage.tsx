@@ -17,7 +17,7 @@ function BlogPage() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        axios.get("http://16.16.204.14:8081/api/blog")
+        axios.get("/api/blog")
             .then((res) => {
                 setPosts(res.data);
                 setLoading(false);

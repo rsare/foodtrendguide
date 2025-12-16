@@ -24,7 +24,7 @@ function FavoritesPage() {
 
         if (storedUserId) {
             // Favorileri Çek
-            axios.get<Venue[]>(`http://16.16.204.14:8081/api/bookmarks/user/${storedUserId}`)
+            axios.get<Venue[]>(`/api/bookmarks/user/${storedUserId}`)
                 .then(res => setBookmarks(res.data))
                 .catch(err => console.error("Favoriler çekilemedi:", err));
         } else {
