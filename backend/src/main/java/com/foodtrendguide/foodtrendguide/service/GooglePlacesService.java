@@ -23,7 +23,7 @@ public class GooglePlacesService {
 //    @Value("${google.places.api.key}")
 //    private String API_KEY;
 
-    private final String API_KEY = "AIzaSyCH_tZBEOgtxI2Imc6S-S_BlQWyEZI-YMg";
+    private final String API_KEY = "AI";
 
     public GooglePlacesService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
