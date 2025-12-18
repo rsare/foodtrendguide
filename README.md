@@ -1,6 +1,7 @@
 FoodTrend Guide
 FoodTrend Guide is a modern, full-stack web application designed for food enthusiasts to discover top-rated venues, manage favorites, and explore trending culinary spots. The platform integrates localized data with external services to provide a seamless user experience.
 
+-----------------------------------------------------------------------------------------
 Features
 Venue Discovery: Filter venues by city, district, and category (Dessert, Coffee, Healthy, etc.).
 
@@ -13,34 +14,25 @@ Blog Section: Explore curated content and detailed venue reviews.
 Admin Dashboard: Special server-side rendered (SSR) panel for data synchronization and system management.
 
 Responsive Design: Fully optimized for mobile, tablet, and desktop views using Tailwind CSS.
-
+-----------------------------------------------------------------------------------------
 Technology Stack
 Backend
-Java 21 & Spring Boot 3.5.7
-
-Spring Security: JWT & Google OAuth2
-
-Spring Data JPA: Hibernate ORM
-
-MySQL: Relational database management
-
-Maven: Dependency and build management
+- Java 21 & Spring Boot 3.5.7
+- Spring Security: JWT & Google OAuth2
+- Spring Data JPA: Hibernate ORM
+- MySQL: Relational database management
+- Maven: Dependency and build management
 
 Frontend
-React 18 (TypeScript)
-
-Vite: Fast development and build tool
-
-Tailwind CSS: Modern utility-first styling
-
-Axios: REST API communication
+- React 18 (TypeScript)
+- Vite: Fast development and build tool
+- Tailwind CSS: Modern utility-first styling
+- Axios: REST API communication
 
 Infrastructure & Deployment
-AWS EC2 (Ubuntu): Cloud hosting
-
-Nginx: Reverse proxy and SSL management
-
-Systemd: Automated service management (foodtrend.service)
+- AWS EC2 (Ubuntu): Cloud hosting
+- Nginx: Reverse proxy and SSL management
+- Systemd: Automated service management (foodtrend.service)
 
 Project Structure:
 ```
