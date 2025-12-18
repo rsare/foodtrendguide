@@ -8,20 +8,25 @@ public class PageController {
 
     // Gelen tüm sayfa isteklerini "static/index.html"e (React'e) yönlendiriyoruz.
     // Spring Boot, "templates" içinde index.html bulamazsa, otomatik olarak "static/index.html"i sunar.
-    @GetMapping(value = {
-            "/",
-            "/home",
-            "/login",
-            "/register",
-            "/explore",
-            "/profile",
-            "/bookmarks",
-            "/favorites",
-            "/venue/**"
-    })
+//    @GetMapping(value = {
+//            "/",
+//            "/home",
+//            "/login",
+//            "/register",
+//            "/explore",
+//            "/profile",
+//            "/bookmarks",
+//            "/favorites",
+//            "/venue/**"
+//    })
     public String forwardToReact() {
         // "forward:/" demek, isteği tekrar ana sayfaya gönder demektir.
         // Bu sayede React'in index.html dosyası yüklenir.
         return "forward:/index.html";
     }
+
+//    @GetMapping("/info")
+//    public String infoPage() {
+//        return "info"; // src/main/resources/templates/info.html dosyasını açar
+//    }
 }

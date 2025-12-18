@@ -295,6 +295,23 @@ function HomePage() {
                 </div>
             )}
 
+
+            {/* --- İSTEDİĞİN SSR LİNKLERİ (FOOTER) --- */}
+            <footer className="w-full py-12 border-t border-gray-800/30 bg-[#0c0e12] mt-auto">
+                <div className="max-w-[1400px] mx-auto px-6 flex flex-col items-center gap-6 text-center">
+                    <div className="flex gap-10">
+                        <a href="/admin" className="text-gray-500 hover:text-red-500 text-sm font-medium transition-all duration-300 flex items-center gap-2">
+                            <span className="text-red-900">●</span> Admin Paneli (SSR)
+                        </a>
+                        <a href="/info" className="text-gray-500 hover:text-blue-500 text-sm font-medium transition-all duration-300 flex items-center gap-2">
+                            <span className="text-blue-900">●</span> Sistem Bilgisi (SSR)
+                        </a>
+                    </div>
+                    <p className="text-[10px] text-gray-700 tracking-[0.4em] uppercase">
+                        Internal Access System • FoodTrendGuide Tech
+                    </p>
+                </div>
+            </footer>
         </div>
     );
 }
