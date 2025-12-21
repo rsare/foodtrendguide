@@ -18,7 +18,7 @@ Responsive Design: Fully optimized for mobile, tablet, and desktop views using T
 Technology Stack
 Backend
 - Java 21 & Spring Boot 3.5.7
-- Spring Security: JWT & Google OAuth2
+- Spring Security: (Dummy)JWT & Google OAuth2
 - Spring Data JPA: Hibernate ORM
 - MySQL: Relational database management
 - Maven: Dependency and build management
